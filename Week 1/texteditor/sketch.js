@@ -30,9 +30,9 @@ function draw() {
         fill('white')
     }
   
-    if (frameCount % 150 == 0){
-        resetText();
-    }
+    // if (frameCount %  == 0){
+    //     resetText();
+    // }
 
 
 }
