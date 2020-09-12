@@ -1,16 +1,11 @@
-
-
-function preload() {
-
-}
-
-
-
-var scl = 20;
+var scl = 10;
 var cols, rows;
+let inc = 0.1;
+
+var zoff = 0;
 
 function setup() {
-    createCanvas(500, 500);
+    createCanvas(400, 400);
     background(240)   
 
     cols = floor(width / scl)
@@ -19,39 +14,31 @@ function setup() {
 }
 
 
-let noiseVal;
-let noiseScale = 0.02;
-let noiseOff=  0.01;
-
-
 function draw() {
     background(240);
     noLoop();
 
+  
+    var yoff = 0;
+    //var xoff = 0;
     for (let y = 0; y < rows; y ++ ){
+        var xoff = 0;
+        yoff += inc;
         for (let x = 0; x < cols; x ++ ){
-            console.log('running')
+            //yoff += inc;
 
-            noiseOff += 0.1;
+            push()
+            var angle = noise(xoff, yoff) * TWO_PI;
 
+            var v = p5.Vector.fromAngle(angle);
+            translate(x*scl, y*scl)
+            rotate(v.heading());
+            line(0, 0, scl, 0)
+            pop()
 
-            noStroke();
-            grayNoise = noise(noiseOff)*255
-            col = color(noise(noiseOff)*255, noise(noiseOff)*255, noise(noiseOff)*255)
-            fill(grayNoise)
-            rect(x*scl, y*scl, width/cols, height/rows)
-            //rotate( (PI / 10))
-        
-
-            // stroke('blue')
-            // strokeWeight(0.5);
-            // stroke('rgba(0,0,0,0.5)')
-            //line(5*v.x, 30*v.y, noise(noise3)*100, noise(noise4)*100);
-            // noiseDetail(4, 0.5)
-            // noiseVal = noise((x)*noiseScale + noiseOff, y*noiseScale, noiseOff)
-            // stroke(noiseVal * 255);
-            // point(x, y)
+            xoff += inc;
         }
+       
     }
 
  
