@@ -1,4 +1,4 @@
-var scl = 5;
+var scl = 15;
 var cols, rows;
 let inc = 0.1;
 
@@ -53,10 +53,12 @@ function draw() {
             
             noStroke();
             strokeWeight(1)
-            //stroke(noise(xoff, yoff)*255)
+            stroke(noise(xoff, yoff)*255)
             ///fill(random(255))
-            fill(20)
-        
+           // fill(noise(xoff)*255)
+            shearX(PI / 8 )
+
+           
             
             rect(0,0,scl,scl);
             
