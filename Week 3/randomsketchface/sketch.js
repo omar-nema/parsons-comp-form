@@ -11,16 +11,23 @@ function setup() {
     background(240)
     eyeWidth = width / 8;
     eyeHeight = height /3;
+
+
 }
 
-function drawShape(x, y, w, h, numPoints, col){
+function drawShape(x, y, w, h, numPoints, col, str){
     numPoints = Math.floor(numPoints/4 )
     push()
-    strokeWeight(0.1);
     noFill();
+    strokeWeight(1)
     if (col){
         fill(col)
     } 
+    if (str){
+        strokeWeight(str)
+    } else {
+        noStroke()
+    }
     translate(x, y);
     bounds = [];
     bounds.push([-w/2, 0]);
@@ -81,15 +88,41 @@ function draw() {
     centerMouthX = width/2;
     centerMouthY = height*3/4;
 
+    drawShape(width/2, height/2, width*1.5, height*1.2, 20, random(200, 230))
+    drawShape(width*2/3, height/4, width*1.5, height*1.2, 20, random(150, 230))
+    drawShape(width, 0, width*2, height*3, 20, random(160, 200))
+    // push()
+    
+    // triangle(50, height*1/10, width/2, height/4, width*9/10, height/10);
+    // rotate(-PI /2)
+    // pop();
 
-    drawShape(width/2, height/2, width*1.3, height*1.3, 20, 'darkgray')
+    shearX(PI / random(50, 100))
+    shearY(PI / random(50, 100))
+
+    push()
+    rotate(PI / random(70, 100))
+    drawShape(centerEye1x, eyeHeight, random(40, 140), random(50,130), 100, random(50, 100))
+    drawShape(centerEye1x, eyeHeight, random(40, 100), random(50,130), 100, random(70, 100))
+    drawShape(centerEye1x, eyeHeight, random(40, 50), random(30,130), 100, random(50, 70))
+    pop();
 
 
-    drawShape(centerEye1x, eyeHeight, random(40, 140), random(50,70), 20, 'black')
-    drawShape(centerEye2x, eyeHeight, random(40, 150), random(50,70), 30, 'black')
-    drawShape(centerNoseX, centerNoseY, 50, random(30, 90), 50, 'black')
-    drawShape(centerMouthX, centerMouthY, random(200, 300), random(50, 100), 80, 'red')
+    push()
+    rotate(PI / random(70, 100))
+    drawShape(centerEye2x, eyeHeight, random(40, 140), random(50,130), 100, random(0, 50))
+    drawShape(centerEye2x, eyeHeight, random(40, 100), random(50,130), 100, random(50, 100))
+    drawShape(centerEye2x, eyeHeight, random(40, 50), random(30,130), 100, random(50, 200))
+    pop();
 
-   
+    drawShape(centerNoseX, centerNoseY, random(40, 80), random(15, 40), 50, random(50, 200))
+
+    push();
+    rotate(PI / random(30, 50))
+    drawShape(centerMouthX, centerMouthY, random(200, 300), random(50, 100), 80, color(random(0, 100)))
+    drawShape(centerMouthX, centerMouthY, random(200, 300), random(50, 100), 80, color(random(100,  205), 0, 0))
+    // drawShape(centerMouthX, centerMouthY, random(100, 200), random(50, 100), 80, color(random(230,  255), 0, 0))
+ 
+    pop();
 
 }
