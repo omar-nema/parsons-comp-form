@@ -30,14 +30,15 @@ function Particle() {
         
         // stroke(0, 50)
 
-        stroke(colr)
-        
+        //stroke(colr)
+        noStroke();
+        fill(random(255))
         strokeWeight(1)
 
         //point(Math.max(Math.min(this.pos.x, width), 0), Math.max(Math.min(this.pos.y, height), 0));
     // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)
 
-        point(this.pos.x, this.pos.y)
+        circle(this.pos.x, this.pos.y, random(3,10))
         this.updatePrev();
  
         // point(this.pos.x, this.pos.y);

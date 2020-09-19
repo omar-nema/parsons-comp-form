@@ -1,4 +1,4 @@
-var scl = 20;
+var scl = 10;
 var cols, rows;
 let inc = 0.1;
 
@@ -14,16 +14,16 @@ function setup() {
     cols = floor(width / scl)
     rows = floor(height / scl);
 
-    filter(BLUR, 2);
-
-    for (var i = 0 ; i < 1000; i++){
+    //filter(BLUR, 2);
+    for (var i = 0 ; i < 100; i++){
         particles.push(new Particle())
     }
 
 }
-
 function createNoiseField(colr){
     var yoff = 0;
+
+    noLoop()
    
     let myDegrees = map(mouseX, 0, width, 0, 360);
     console.log(myDegrees)
@@ -34,12 +34,11 @@ function createNoiseField(colr){
         for (let x = 0; x < cols; x ++ ){
             push()     
             stroke(0, 255)
-            angle = noise(xoff, yoff, zoff) * TWO_PI*3;
-        
-
+            strokeWeight(4)
+            angle = xoff*random() * TWO_PI*3;
             v = p5.Vector.fromAngle(angle);
             v.setMag(3);
-            // flowfield.push(v)
+            flowfield.push(v)
             index = x + y * cols; // grid pos
             flowfield[index] = v
             pop()
@@ -65,7 +64,7 @@ function draw() {
 
 
     ///createNoiseField(color(0, 5));
-    createNoiseField(color(0, 20))
+    createNoiseField(color(0, 100))
    // createNoiseField(color(140,133,122, 30));
     //createNoiseField();
 
