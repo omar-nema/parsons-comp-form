@@ -112,35 +112,8 @@ function draw() {
         vertex(d[0], d[1])
     })
     endShape();
-    // endShape();
+  
     
-
-    
-
- 
-
-    //sort array by arctan
-    
-    // for (let i = 0; i < numPoints; i++) {
-    //   let angle = (360 / numPoints) * i;
-    // let x = cos(angle) * radius + centerX;
-    //   let y = sin(angle) * radius +centerY;
-    //   let xnoise = (noise(frameCount * 0.02 + i) - 0.5) * noiseAmount;
-    //   let ynoise = (noise(frameCount * 0.02 + i) - 0.5) * noiseAmount;
-    //   curveVertex(x + xnoise, y + ynoise);
-
-    //   console.log(noise(noiseoff + 50))
-    //   radius += noise(noiseoff)*random(-50, 50)
-    //   noiseoff += 10;
-
-    //   //noiseDrop
-
-    // }
-
-
-
-
-
 
     endShape(CLOSE);
 
