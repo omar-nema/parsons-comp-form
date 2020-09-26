@@ -1,5 +1,5 @@
 
-var cols = 50;
+var cols = 2;
 var rows = cols;
 var unitWidth, unitHeight;
 

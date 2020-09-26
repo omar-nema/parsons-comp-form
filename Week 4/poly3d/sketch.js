@@ -1,113 +1,112 @@
-function preload() {
-
-}
-
 let rows = 10;
 let cols = rows;
-
 let unitHeight;
 let unitWidth;
 let shapeModes;
 
+
+var shapeArray = [];
+
 function setup() {
-    createCanvas(700, 600)   
+    createCanvas(700, 700, WEBGL)   
     background(255)
     unitHeight = height/rows;
     unitWidth = width/cols;
 
-    shapeModes = [TRIANGLE_STRIP,  QUAD_STRIP, LINES, TRIANGLES]
-
-    // drawingContext.shadowOffsetX = 1;
-    // drawingContext.shadowOffsetY = -1;
-    // drawingContext.shadowBlur = 5;
-    // drawingContext.shadowColor = 'rgba(90,90,90, 0.4)';
+    initShapes();
 }
 
-
-colr = [1,4, 3, 9]
 function getColor(){
-    // colorMode(HSB, 100);
-    // colBase = parseInt(random(45, 60));
-    // console.log(colBase)
-    // return color(colBase, 100, 90);
     return random(255);
 }
 
-
-function draw() {
-    noLoop();
-    randomSeed(5)
-    overlapfactor = 40;
+function initShapes(){
     
     for (x=0; x < cols; x++){
-        minX = unitWidth*x - unitWidth/overlapfactor;
-        maxX = minX + unitWidth + unitWidth/overlapfactor;
-
+        minX = unitWidth*x ;
+        maxX = minX + unitWidth;
         for (y=0; y< rows; y++){
-            minY = unitHeight*y - unitHeight/overlapfactor;
-            maxY = minY + unitHeight + unitHeight/overlapfactor;
-        
-            push()
-            strokeWeight(1)
-            fill(getColor());
-            createShape(minX, minY, maxX, maxY, random(3, 7), .97)
-           
-            pop();
-
-
-            // push();
-            // fill(getColor())
-            // strokeWeight(1)
-            // polygon(random(minX, maxX), random(minY, maxY), random(3, 10), random(3,12))
-            // polygon(random(minX, maxX), random(minY, maxY), random(3, 9), random(1,5))
-            // pop();
-            //createShape(minX, minY, maxX, maxY, random(3, 7), .97)
-
-            //rand effects
-            // push()
-            // shearX(PI / random(3, 5))
-            // shearY(PI / random(3, 5))
-            // pop()       
-            
-            // polygon(random(currX, maxX), random(currY, maxY), random(2, 15), random(3,8))
-            // polygon(random(currX, maxX), random(currY, maxY), random(1, 3), random(3,8))
-            // polygon(random(currX, maxX), random(currY, maxY), random(1, 3), random(3,8))
-            // polygon(random(currX, maxX), random(currY, maxY), random(1, 3), random(3,8))
-            //polygon(random(currX, maxX), random(currY, maxY), random(5, 90), random(3,8))
+            minY = unitHeight*y ;
+            maxY = minY + unitHeight ;
+            numpts = random(3, 10);
+            currShape =[];
+            for (i=0; i< numpts; i++){
+                shapeObj = {x: random(minX, maxX), y: random(minY, maxY), z: 0}
+                currShape.push(shapeObj)
+            }
+            shapeArray.push(currShape);
         }
     }
-
 }
 
+var noiseoff = 0;
+var noiseoff = 0;
+var noiseRange = 30;
+var noiseInc = 0.01;
 
+
+var yTrans = 0;
+
+function draw() {
+    randomSeed(5)
+    background('#87CEEB')
+
+    
+
+    // noLoop();
+
+    rotateX(PI / 3)
+    translate(-width/2, -height/2)
+    noiseoff += noiseInc;
+
+    push ()
+    
+    fill('green');
+    noStroke();
+    rect(0,0, width, height)
+
+    pop ()
+
+
+    shapeArray.forEach(function(shape){
+        beginShape();
+        push ();
+        shearX(PI / 90)
+        fill(getColor());
+        shape.forEach(function(d, i){
+            // d.x += -2;
+         
+            vertex(d.x, d.y, map(noise(noiseoff*i), 0, 1, noiseRange/2, noiseRange*2));
+            //vertex(d.x, d.y, map(noise(xoff, yoff), 0, 1, noiseRange/2, noiseRange*2));
+            
+
+            //noiseoff += 0.01;
+        })
+        pop ();
+        endShape(CLOSE);
+        
+        
+    })
+
+
+}
 
 function createShape(minX, minY, maxX, maxY, numpts){    
-
     beginShape();
-    //beginShape(QUADS)
     for (i=0; i< numpts; i++){
-        vertex(random(minX, maxX), random(minY, maxY))
-    }
-    endShape(CLOSE)
-}
-
-function createCurvedShape(minX, minY, maxX, maxY, numpts){    
-    beginShape();
-    curveTightness(random(1,5));
-    for (i=0; i< numpts; i++){
-        curveVertex(random(minX, maxX), random(minY, maxY))
+        vertex(random(minX, maxX), random(minY, maxY), map(noise(i), 0, 1, -noiseRange, noiseRange))
     }
     endShape(CLOSE)
 }
 
 //regular polygon code from: https://p5js.org/examples/form-regular-polygon.html
-function polygon(x, y, radius, npoints) {
+function polygon(x, y, z, radius, npoints) {
     let angle = TWO_PI / npoints;
     beginShape();
     for (let a = 0; a < TWO_PI; a += angle) {
       let sx = x + cos(a) * radius;
       let sy = y + sin(a) * radius;
-      vertex(sx, sy);
+      vertex(sx, sy, z);
     }
     endShape(CLOSE);
   }
