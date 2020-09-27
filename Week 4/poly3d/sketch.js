@@ -7,6 +7,9 @@ let shapeModes;
 
 var shapeArray = [];
 
+var particles = [];
+var flowfield = [];
+
 function setup() {
     createCanvas(700, 700, WEBGL)   
     background(255)
@@ -14,6 +17,10 @@ function setup() {
     unitWidth = width/cols;
 
     initShapes();
+    for (var i = 0 ; i < shapeArray.length; i++){
+        particles.push(new Particle())
+    }
+
 }
 
 function getColor(){
@@ -47,39 +54,92 @@ var noiseInc = 0.01;
 
 var yTrans = 0;
 
+
+
+//add me
+var inc = 0.1;
+var zoff = 0;
+var scl = 10;
+
+function createNoiseField(){
+    var yoff = 0;
+
+    for (let y = 0; y < rows; y ++ ){
+        var xoff = 0;        
+        for (let x = 0; x < cols; x ++ ){
+            push()     
+            stroke(0, 255)
+            strokeWeight(4)
+            angle = xoff*random() * TWO_PI*3;
+            v = p5.Vector.fromAngle(angle);
+            v.setMag(3);
+            flowfield.push(v)
+            index = x + y * cols; // grid pos
+            flowfield[index] = v
+            pop()
+            xoff += inc;
+        }
+        yoff += inc;
+        zoff += .0003;
+    }
+    for (i=0; i < particles.length; i++){
+        particles[i].update()
+        particles[i].edges();
+        particles[i].show(i, 50);
+        particles[i].follow(flowfield);
+    }
+}
+
+function createPolygon(shape, xval, yval){
+        beginShape();
+        push ();
+        fill(getColor());
+        shape.forEach(function(d, i){
+            push()
+            translate(10000, yval, 0)
+           
+            vertex(d.x, d.y, map(noise(noiseoff*i), 0, 1, noiseRange/2, noiseRange*2));
+            pop();
+            //vertex(d.x, d.y, map(noise(xoff, yoff), 0, 1, noiseRange/2, noiseRange*2));
+        
+            //noiseoff += 0.01;
+        })
+        pop ();
+        endShape(CLOSE); 
+}
+
+
 function draw() {
     randomSeed(5)
+
+    //sky
     background('#87CEEB')
 
-    
-
-    // noLoop();
-
+    //3dify
+    noLoop();
     rotateX(PI / 3)
     translate(-width/2, -height/2)
     noiseoff += noiseInc;
 
+    //grass
     push ()
-    
     fill('green');
     noStroke();
     rect(0,0, width, height)
-
     pop ()
 
+    //createNoiseField()
 
+    //flying polygons
     shapeArray.forEach(function(shape){
         beginShape();
         push ();
-        shearX(PI / 90)
+        translate(width/2, 0)
         fill(getColor());
         shape.forEach(function(d, i){
-            // d.x += -2;
-         
             vertex(d.x, d.y, map(noise(noiseoff*i), 0, 1, noiseRange/2, noiseRange*2));
             //vertex(d.x, d.y, map(noise(xoff, yoff), 0, 1, noiseRange/2, noiseRange*2));
-            
-
+        
             //noiseoff += 0.01;
         })
         pop ();
