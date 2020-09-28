@@ -5,100 +5,120 @@
 
 
 function setup() {
-    createCanvas(700, 700, WEBGL)   
+    createCanvas(700, 700)   
     background(240);
     angleMode(DEGREES)
 }
 
 
-var maxHt = 80;
-
+var maxHt = 130;
 var xoff = 0;
 var strokeCap = 5;
-var recurse = 0.85;
-var minHt = 0.5;
+var recurse = 0.73;
+var minHt = 2;
 var numRecursions = Math.log(minHt/maxHt)/Math.log(recurse)
-var maxStroke = 7;
+var maxStroke = 1   ;
 var strokeGradation = 7/(numRecursions) * 2;
+var angle = 15; 
 
-var angle = 17; 
+var bigAngle = 25;
 
+var numBranches = 1;
 
-var numBranches = 15;
+function generateCurveVertices(numVertices, range, htVal){
+    inc = htVal/numVertices; 
+    currVal = 0;
+    vertices = [];
+    for (i=0; i<numVertices+1; i++){
+        // console.log(currVal);
+        vertices.push({
+            x: random(-range,range),
+            y: currVal
+        })
+        currVal += inc;
+    }
+    return vertices;
+}
 
 function draw() {
   
     noLoop();
     background(240);
     
-  
-    // translate(width/2, height/1.5)
-    // translate(-width/2, -height/2)
-    // rotateX(PI /3)
+    strokeWeight(2);
+    translate(width/2, height/2)
 
-    // push ()
+
+    translate(0,  maxHt)
+
+    beginShape();
+    curveVertex(0,0);
+    curveVertex(random(-5, 5),maxHt/2)
+    curveVertex(0,maxHt)
+    endShape(CLOSE);
     
-    // translate(-width/2, -height/2)
-    // rotateX(PI /3)
-    // 
-    // pop ();
-
-
-    push ()
-    rotateX(50)
-    noStroke();
-    fill ('#34eb71')
-    translate(-width/2, -height/2)
-    rect(0,0, width, height)
-    pop ();
-
-    push ()
-    translate(0, 50, 90);
-    rotateX(-10)
    
-
-    stroke('#964b00')
-    strokeWeight(maxStroke);
-    line(0,0, 0, -maxHt)
-    translate(0, -maxHt)
-
-
-
     angleInc = 360/numBranches;
     currAngle = 0;
     for (i=0; i<numBranches; i++){
         push ()
-        rotateY(currAngle)
-        branch(maxHt, random(angle*0.95, angle*1.05), maxStroke) 
+        branch(maxHt, angle, maxStroke) 
         pop ()
-        console.log(currAngle)
         currAngle += angleInc;
     }
-    
   
 }
 
-
-
+var branchPts = [];
+var noiseoff = 0;
 
 function branch(ht, angle, strokeVal){
     ht *= recurse;
-    
+    noiseoff += 0.5;
+    strokeWeight(2)
     if (ht > minHt){
 
+        angle = map(noise(noiseoff), 0, 1, bigAngle*0.5, bigAngle*2)
+        ht = map(noise(noiseoff), 0, 1, ht*0.95, ht*1.05)
+        
         push ()
-        //needs to be thicker on the bottom
-        // strokeWeight(map(noise(xoff), 0, 1, 0.1, maxStroke))
-        strokeWeight(strokeVal);
         rotate (angle)
-        line(0,0, 0, -ht)
+        beginShape()
+        vertices = generateCurveVertices(4, 4, -ht);
+        vertices.forEach(function(d, i){
+            curveVertex(d.x, d.y)
+        })
+        endShape(CLOSE)
+        
+        // beginShape()
+        // curveVertex(0,0)
+        // curveVertex(random(-2,2), -ht*.33)
+        // curveVertex(random(-2,2), -ht*.5)
+        // curveVertex(random(-2,2), -ht*.66)
+        // curveVertex(0, -ht)
+        // endShape(CLOSE)
+        // line(0,0, 0, -ht)
+
+
         translate(0, -ht)
-        xoff += 0.1;
+        strokeVal -= strokeGradation;
+        branch(ht, angle, strokeVal)
+        pop ()
+
+        push ()
+        rotate (-angle)
+        // line(0,0, 0, -ht)
+        beginShape()
+        curveVertex(0,0)
+        curveVertex(random(-2,2), -ht*.33)
+        curveVertex(random(-2,-2), -ht*.66)
+        curveVertex(0, -ht)
+        endShape(CLOSE)
+        translate(0, -ht)
         strokeVal -= strokeGradation;
         branch(ht, angle, strokeVal)
         pop ()
        
-    }
- 
+    } 
 }
 
