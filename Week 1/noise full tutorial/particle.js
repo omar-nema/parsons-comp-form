@@ -4,7 +4,7 @@ function Particle() {
     this.vel = createVector(0,0);
     // this.vel = p5.Vector.random2D();
     this.acc = createVector(0,0);
-    this.maxSpeed = 10;
+    this.maxSpeed = 2;
 
     this.prevPos = this.pos.copy();
 
@@ -38,7 +38,7 @@ function Particle() {
         //point(Math.max(Math.min(this.pos.x, width), 0), Math.max(Math.min(this.pos.y, height), 0));
     // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)
 
-        circle(this.pos.x, this.pos.y, random(3,10))
+        circle(this.pos.x, this.pos.y, 2)
         this.updatePrev();
  
         // point(this.pos.x, this.pos.y);

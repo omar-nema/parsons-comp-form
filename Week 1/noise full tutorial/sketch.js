@@ -23,10 +23,10 @@ function setup() {
 function createNoiseField(colr){
     var yoff = 0;
 
-    noLoop()
+ 
    
-    let myDegrees = map(mouseX, 0, width, 0, 360);
-    console.log(myDegrees)
+    //let myDegrees = map(mouseX, 0, width, 0, 360);
+    ///console.log(myDegrees)
 
     for (let y = 0; y < rows; y ++ ){
         var xoff = 0;
@@ -37,7 +37,7 @@ function createNoiseField(colr){
             strokeWeight(4)
             angle = xoff*random() * TWO_PI*3;
             v = p5.Vector.fromAngle(angle);
-            v.setMag(3);
+            v.setMag(1);
             flowfield.push(v)
             index = x + y * cols; // grid pos
             flowfield[index] = v
@@ -61,7 +61,7 @@ function createNoiseField(colr){
 function draw() {
     //background(240);
 
-
+   
 
     ///createNoiseField(color(0, 5));
     createNoiseField(color(0, 100))

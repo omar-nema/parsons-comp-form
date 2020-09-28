@@ -30,15 +30,15 @@ function getColor(){
 function initShapes(){
     
     for (x=0; x < cols; x++){
-        minX = unitWidth*x ;
-        maxX = minX + unitWidth;
+        // minX = unitWidth*x ;
+        // maxX = minX + unitWidth;
         for (y=0; y< rows; y++){
-            minY = unitHeight*y ;
-            maxY = minY + unitHeight ;
+            // minY = unitHeight*y ;
+            // maxY = minY + unitHeight ;
             numpts = random(3, 10);
             currShape =[];
             for (i=0; i< numpts; i++){
-                shapeObj = {x: random(minX, maxX), y: random(minY, maxY), z: 0}
+                shapeObj = {x: random(0, unitWidth), y: random(0, unitHeight), z: 0}
                 currShape.push(shapeObj)
             }
             shapeArray.push(currShape);
@@ -72,7 +72,7 @@ function createNoiseField(){
             strokeWeight(4)
             angle = xoff*random() * TWO_PI*3;
             v = p5.Vector.fromAngle(angle);
-            v.setMag(3);
+            v.setMag(1);
             flowfield.push(v)
             index = x + y * cols; // grid pos
             flowfield[index] = v
@@ -95,10 +95,8 @@ function createPolygon(shape, xval, yval){
         push ();
         fill(getColor());
         shape.forEach(function(d, i){
-            push()
-            translate(10000, yval, 0)
-           
-            vertex(d.x, d.y, map(noise(noiseoff*i), 0, 1, noiseRange/2, noiseRange*2));
+            push()           
+            vertex(d.x+xval, d.y+yval, map(noise(noiseoff*i), 0, 1, noiseRange/2, noiseRange*2));
             pop();
             //vertex(d.x, d.y, map(noise(xoff, yoff), 0, 1, noiseRange/2, noiseRange*2));
         
@@ -116,7 +114,7 @@ function draw() {
     background('#87CEEB')
 
     //3dify
-    noLoop();
+    // noLoop();
     rotateX(PI / 3)
     translate(-width/2, -height/2)
     noiseoff += noiseInc;
@@ -128,25 +126,25 @@ function draw() {
     rect(0,0, width, height)
     pop ()
 
-    //createNoiseField()
+    createNoiseField()
 
     //flying polygons
-    shapeArray.forEach(function(shape){
-        beginShape();
-        push ();
-        translate(width/2, 0)
-        fill(getColor());
-        shape.forEach(function(d, i){
-            vertex(d.x, d.y, map(noise(noiseoff*i), 0, 1, noiseRange/2, noiseRange*2));
-            //vertex(d.x, d.y, map(noise(xoff, yoff), 0, 1, noiseRange/2, noiseRange*2));
+    // shapeArray.forEach(function(shape){
+    //     beginShape();
+    //     push ();
+
+    //     fill(getColor());
+    //     shape.forEach(function(d, i){
+    //         vertex(d.x, d.y, map(noise(noiseoff*i), 0, 1, noiseRange/2, noiseRange*2));
+    //         //vertex(d.x, d.y, map(noise(xoff, yoff), 0, 1, noiseRange/2, noiseRange*2));
         
-            //noiseoff += 0.01;
-        })
-        pop ();
-        endShape(CLOSE);
+    //         //noiseoff += 0.01;
+    //     })
+    //     pop ();
+    //     endShape(CLOSE);
         
         
-    })
+    // })
 
 
 }
