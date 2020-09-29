@@ -5,19 +5,18 @@ function setup() {
 }
 
 
-var maxHt = 100;
+var maxHt = 160;
 var xoff = 0;
 var strokeCap = 5;
-var recurse = 0.6;
-var minHt = 1;
+var recurse = 0.66;
+var minHt = 3;
 var numRecursions = Math.log(minHt/maxHt)/Math.log(recurse)
 var maxStroke = 1   ;
 var strokeGradation = 7/(numRecursions) * 2;
 var bigAngle = 25;
-var numBranches = 1;
+var numBranches = 4;
 
-var noiseRange = 5;
-
+var noiseRange = 3;
 
 var branchPts = [];
 var noiseoff = 0;
@@ -41,12 +40,18 @@ function generateCurveVertices(numVertices, range, htVal, index){
 
 function draw() {
   
-    // noLoop();
+    noLoop();
     runNum = 0;
     noiseoff += 0.1;
 
+    background(255)
+    fill (0, 100)
+    stroke(0, 100)
+
+   
+
     strokeWeight(1);
-    background(250);
+
     
     translate(width/2, height/2)
 
@@ -64,11 +69,15 @@ function draw() {
     //recursion
     angleInc = 360/numBranches;
     currAngle = 0;
-    for (i=0; i<numBranches; i++){
+    currTrans = 0;
+    for (z=0; z<numBranches; z++){
         push ()
+        // rotate(currAngle)
+        translate(currTrans, 0)
         branch(maxHt, maxStroke) 
         pop ()
         currAngle += angleInc;
+        currTrans += 2;
     }
   
 }
@@ -80,11 +89,13 @@ function branch(ht, strokeVal){
     runNum ++;
     if (ht > minHt){
 
+        fill (0, random(0, 150))
+        stroke(0, random(50, 150))
+
         // angle = map(noise(noiseoff), 0, 1, bigAngle*0.5, bigAngle*2)
-        // ht = map(noise(noiseoff), 0, 1, ht*0.9, ht*1.1)
+        // ht = map(noise(noiseoff), 0, 1, ht*0.7, ht*1.2)
 
         angle = bigAngle;
-        stroke (0, 200)
         push ()
         rotate (angle)
         
