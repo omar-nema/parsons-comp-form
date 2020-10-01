@@ -10,7 +10,7 @@ var cols = 60;
 var rows = cols;
 
 
-var terrainNoiseRange = 20;
+var terrainNoiseRange = 10;
 var terrainNoise = 0;
 
 function setup() {
@@ -31,9 +31,35 @@ function setup() {
       }
   }
 
+  randomSeed(10)
 
-  random(10)
+
+  rotateX(15)   
+  translate(-width/2, -height/2, 0);
+
+  generateTerrain();
+  generateBlobs();
+  generateTreasure();
+
   cursor(CROSS)
+}
+
+function plotTree(x, y){
+
+    push ()
+    fill('black')
+    stroke('brown')
+    strokeWeight(3);
+    line(x,y,0,x,y, 30)
+   
+    translate(x,y, 30)
+    strokeWeight(1)
+    fill('white')
+    stroke('green')
+    sphere (4)
+  
+    pop ()
+
 }
 
 function drawBlob(centerX, centerY, shapeFactor, noiseFactor, radius, type){
@@ -73,17 +99,23 @@ function drawBlob(centerX, centerY, shapeFactor, noiseFactor, radius, type){
       noiseFactor += 0.1;
       newPt = [x+xnoise, y+ynoise];
       pts.push(newPt)
-
-        // greenpts = [];
-        //   greenPt = [newPt[0]*0.9, newPt[1]*0.9];
-        //   greenpts.push(greenPt);
-        //curveVertex(x + xnoise, y + ynoise);
     }
+    if (radius > 30){
+        for (i=0; i< 30; i++){
+            rlimit = radius / 2;
+            treex = centerX - random(-rlimit, rlimit);
+            treey = centerY - random(-rlimit, rlimit);
+            plotTree(treex, treey);
+        }
+    }
+ 
+    
+
     push();
     beginShape();
     strokeWeight(5);
     // noStroke()
-    var zHeight = 25;
+    var zHeight = 15;
     if (type == 'land'){
         fill('#ffc369');
     } else if (type == 'grass') {
@@ -93,7 +125,7 @@ function drawBlob(centerX, centerY, shapeFactor, noiseFactor, radius, type){
         strokeWeight(0.5);
         stroke(fc)
         
-        zHeight = 35;
+        zHeight = 22;
     }
     
     pts.forEach(function(d){
@@ -102,6 +134,7 @@ function drawBlob(centerX, centerY, shapeFactor, noiseFactor, radius, type){
     endShape(CLOSE);
     rotate(random(-140, 140))
     pop();
+
   
 }
 
@@ -123,6 +156,7 @@ function generateBlobs(){
     }
     shapes.push(blob)
     drawBlob(blob.centerX, blob.centerY, blob.shapeFactor, blob.noiseFactor, blob.rad, 'land')
+    drawBlob(random(0.9*blob.centerX, 1.1*blob.centerX), random(0.9*blob.centerY,1.1*blob.centerY), blob.shapeFactor, blob.noiseFactor/3, blob.rad*random(0, 0.4), 'grass')
 
     noiseFactor += 100;
 
@@ -152,7 +186,7 @@ function generateBlobs(){
             shapes.push(blob)
             drawBlob(blob.centerX, blob.centerY, blob.shapeFactor, blob.noiseFactor, blob.rad, 'land')
             for (i=0; i<numGrass; i++){
-                drawBlob(blob.centerX, blob.centerY, blob.shapeFactor, blob.noiseFactor/3, blob.rad*random(0, 0.6), 'grass')
+                drawBlob(random(0.9*blob.centerX, 1.1*blob.centerX), random(0.9*blob.centerY,1.1*blob.centerY), blob.shapeFactor, blob.noiseFactor/3, blob.rad*random(0, 0.4), 'grass')
             }
             noiseFactor += 1000;
         }     
@@ -197,18 +231,12 @@ function generateTerrain(){
 
 function draw() {
 
-    noLoop();
+    // noLoop();
 
- 
-    rotateX(25)
+    rotateX(25)   
     translate(-width/2, -height/2, 0);
-
-    generateTerrain();
-    generateBlobs();
-    generateTreasure();
-    
-    //add treasure
-    push();
+ 
+ 
     fill('red')
     drawingContext.shadowOffsetX = 0.2;
     drawingContext.shadowOffsetY = 0.2;
@@ -217,8 +245,12 @@ function draw() {
    // console.log(dist(mouseX, mouseY, treasureX, treasureY))
     if (dist(mouseX, mouseY, treasureX, treasureY) < 50){
         strokeWeight(0.5)
-        circle(treasureX, treasureY,10)
+        translate(treasureX, treasureY)
+        stroke('red');
+        noFill()
+        sphere(3)
+        //sphere(treasureX, treasureY,10)
     }
-    pop();
+ 
 
 }
