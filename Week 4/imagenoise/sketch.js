@@ -6,7 +6,7 @@ function preload() {
 
 let capture;
 
-let vidScale = 5;
+let vidScale = 10;
 
 function setup() {
     createCanvas(500, 500)   
@@ -15,48 +15,71 @@ function setup() {
 
     capture = createCapture(VIDEO);
     capture.size(width/vidScale, height/vidScale)
+
+    angleMode(DEGREES);
 }
 
 var noiseoff = 0;
 
-function draw() {
-     // noLoop()
+var newPixels = [];
 
-    // loadPixels()
-    background(255);
+function draw() {
+  
+    //noLoop();
+    background(map(noise(noiseoff), 0,1, 0, 30));
     capture.loadPixels()
     //image(capture, 0,0, 300, 300)
-    noiseoff += 0.1;
+    noiseoff += 0.01;
     noStroke();
 
     for (var y=0; y<capture.height; y++){
         for (var x=0; x<capture.width; x++){
             var index = (x+y*capture.width)*4;
             noisefactor = map(noise(x, y, noiseoff), 0,1, -50, 50);
-            //noisefactor = 0;
             r = capture.pixels[index] +noisefactor ;
             g = capture.pixels[index+1]+ noisefactor;
             b = capture.pixels[index+2] + noisefactor;
             a = map(noise(x, y, noiseoff), 0,1, 200, 255);
+            a= 255;
 
+            pixelObj = {
+                r: r,
+                g: g,
+                b: b,
+                a: a, 
+                x: x*vidScale,
+                y: y*vidScale,
+                w: vidScale,
+                h: vidScale
+            }
+            newPixels.push(pixelObj)
             push ()
             fill (r,g,b, a)
-
-            transValX = map(noise(x, noiseoff), 0,1, -0.5, 0.5);
-            transValY = map(noise(y, noiseoff), 0,1, -0.5, 0.5);
-            translate(transValX, transValY)
-
-
-
+            shearX(map(noise(x, noiseoff), 0,1, -3, 3))
+            shearY(map(noise(y, noiseoff), 0,1, -3, 3))
+            scale(map(noise(x, y, noiseoff), 0,1, .95, 1.05))
             rect(x*vidScale, y*vidScale, vidScale, vidScale);
-           
-         
-            
             pop ()
 
- 
         }
     }
+
+    //noisy array shuffle
+
+    // newPixels = shuffle(newPixels);
+
+    // newPixels.forEach(function(d){
+    //     push ()
+    //     fill (r,g,b, a)
+    //     transValX = map(noise(x, noiseoff), 0,1, -0.5, 0.5);
+    //     transValY = map(noise(y, noiseoff), 0,1, -0.5, 0.5);
+    //     // translate(transValX, transValY)
+
+    //     fill(d.r, d.g, d.b, d.a)
+    //     rect(d.x, d.y, d.w, d.h);
+     
+    //     pop ()
+    // });
     //filter(POSTERIZE, 3);
 
     //noLoop();
