@@ -208,6 +208,7 @@ function generateTerrain(){
     fill('#0ecccc');
     // noStroke();
     stroke('#0c9494')
+   
     fillCol = color('#0ecccc');
     strokeWeight(0.1)
     var fillmin = 130;
