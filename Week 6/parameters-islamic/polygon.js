@@ -18,14 +18,6 @@ function Polygon(){
         for (var i=0; i< this.edges.length; i++){
             this.edges[i].show();
         }
-
-        // beginShape()
-        // stroke('black')
-        // this.vertices.forEach(function(d){
-        //     console.log(d)
-        //     vertex(d[0], d[1])
-        // })
-        // endShape(CLOSE)
     }
     this.close = function(){
         var lastEdge = this.vertices[this.vertices.length -1];
@@ -34,26 +26,69 @@ function Polygon(){
         this.edges.push(edge);
     }
 
-    //passing vertices
+
+    this.hankin = function(){
+        for (i=0; i<this.edges.length;i++){
+            this.edges[i].hankin();
+        }
+        for (i=0; i<this.edges.length;i++){
+            for (j=0; j<this.edges.length;j++){
+                if (i !== j){
+                    this.edges[i].findEnds(this.edges[j])
+                }
+            } 
+        }
+   
+    }
+
+}
+
+function Edge(a,b){
+
+    
+    this.a = a;
+    this.b = b;
+    this.h1;
+    this.h2;
+
     this.hankin = function(a, b){
         //midpoint, and vectors from midpoint to edge
         var mid = p5.Vector.add(this.a, this.b)
         mid.mult(0.5);
         var v1 = p5.Vector.sub(this.a, mid);
         var v2 = p5.Vector.sub(this.b, mid);
-      
-        this.h1 = new Hankin(a, v1);
-        this.h2 = new Hankin(b, v2);
-    }
-}
+        var offset1 = mid;
+        var offset2 = mid;
+  
+        if (paramDelta > 0){
+            v1.setMag(paramDelta);
+            v2.setMag(paramDelta);
+            offset1 = p5.Vector.add(mid, v2);
+            offset2 = p5.Vector.add(mid, v1);
+        }
+        v1.normalize();
+        v2.normalize();
+        v1.rotate(-paramAngle)
+        v2.rotate(paramAngle)
 
-function Edge(a,b){
-    this.a = a;
-    this.b = b;
-    this.h1;
-    this.h2;
+      
+        this.h1 = new Hankin(offset1, v1);
+        this.h2 = new Hankin(offset2, v2);
+    }
+
+    this.findEnds = function(edge){
+        //this h1 = edge.h1, or this.h1 = edge.h2
+        //go through each edge. store distance along w/ output. return smallest
+        this.h1.findEnd(edge.h1);
+        this.h1.findEnd(edge.h2)
+        this.h2.findEnd(edge.h1)
+        this.h2.findEnd(edge.h2);
+    }
 
     this.show = function(){
+       
         line (this.a.x, this.a.y, this.b.x, this.b.y);
+        this.h1.show()
+        this.h2.show()
     }
 }
