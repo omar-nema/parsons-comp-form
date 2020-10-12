@@ -23,6 +23,7 @@ function setup() {
 function updateParams(){
     paramAngle = sliderAngle.value();
     paramDelta = sliderDelta.value();
+    //test commit
 }
 
 // function createPolygon(){
