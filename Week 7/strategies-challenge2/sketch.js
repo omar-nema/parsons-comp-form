@@ -6,10 +6,7 @@ var startX = 50;
 var startY = 250;
 var endX = 450;
 var endY = 50;
-
 let numPts = 50;
-let numWaves = 1;
-
 
 let xInc, yInc, theta;
 
@@ -17,13 +14,13 @@ function setup() {
     createCanvas(500, 300);
 
     createP('Amplitude');
-    sliderAmp = createSlider(0, 100, 30, 1);
+    sliderAmp = createSlider(0, 50, 20, 1);
 
     createP('Frequency');
-    sliderFreq = createSlider(1, 10, 2, 1);
+    sliderFreq = createSlider(0, 1, .5, 0.1);
 
     createP('Speed');
-    sliderSpeed = createSlider(0.95, 1, 1, 0.01);   
+    sliderSpeed = createSlider(0, .3, 0.15, 0.01);   
 
     fill(255);
     noStroke();
@@ -46,33 +43,22 @@ function updateParams(){
 }
 
 
-
-let yAngle = 0;
-
 let noiseoff = 0;
-
 function draw() {
     background(50);
     updateParams();
-  
+
     for (i=0; i< numPts; i++){
         x = startX + i*xInc;
         y = startY - i*yInc;
-        noLoop()
     
-
-        var xOffset = cos(yAngle) * paramAmp/3;
-
-        //map. noise (i, )
-        //almost the same value to map
-        var nn = map(noise(i, noiseoff), 0, 1, yAngle*0.95, yAngle*1.1)
-        var yOffset = sin(nn) * paramAmp;
-
-        
-        yAngle += paramFreq;
-        circle(x ,y+yOffset, 10)
+        //get noiseangle
+        var noiseAngle = map(noise(i*paramFreq + paramSpeed*noiseoff), 0, 1, 0, TWO_PI)
+        var xOffset = sin(noiseAngle+1000) * paramAmp;
+        var yOffset = sin(noiseAngle) * paramAmp;
+        circle(x+xOffset ,y+yOffset, 10)
     }
     
-    noiseoff += 0.0002;
+    noiseoff += 0.1;
   
 }
