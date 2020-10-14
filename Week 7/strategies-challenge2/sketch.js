@@ -1,5 +1,3 @@
-//lerp = linear interpoolation
-
 var sliderAmp, sliderFreq, sliderSpeed;
 var paramAmp, paramSpeed;
 let paramFreq = 0;
@@ -51,6 +49,8 @@ function updateParams(){
 
 let yAngle = 0;
 
+let noiseoff = 0;
+
 function draw() {
     background(50);
     updateParams();
@@ -58,12 +58,21 @@ function draw() {
     for (i=0; i< numPts; i++){
         x = startX + i*xInc;
         y = startY - i*yInc;
+        noLoop()
+    
 
         var xOffset = cos(yAngle) * paramAmp/3;
-        var yOffset = sin(yAngle) * paramAmp;
+
+        //map. noise (i, )
+        //almost the same value to map
+        var nn = map(noise(i, noiseoff), 0, 1, yAngle*0.95, yAngle*1.1)
+        var yOffset = sin(nn) * paramAmp;
+
         
         yAngle += paramFreq;
         circle(x ,y+yOffset, 10)
     }
+    
+    noiseoff += 0.0002;
   
 }
