@@ -32,7 +32,6 @@ function setup() {
     xInc = plotW/numPts;
     yInc = plotH/numPts;
     theta = (TWO_PI/plotW)*xInc;
-
 }
 
 function updateParams(){
@@ -41,7 +40,6 @@ function updateParams(){
     paramSpeed = sliderSpeed.value();
     
 }
-
 
 let noiseoff = 0;
 function draw() {
