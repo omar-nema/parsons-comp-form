@@ -17,8 +17,12 @@ let btn;
 function setup() {
     createCanvas(500, 500);
 
-    startX = width/2;
-    endX = (width/2)+.001;
+    // startX = width/2;
+    // endX = (width/2)+.001;
+    
+    randStart = random(width*.2, width*.8);
+    startX = randStart;
+    endX = randStart + .001;
 
     strawX = width/2;
     strawH = 250;
@@ -86,15 +90,15 @@ function noodleIntersection(){
             noodleup = true;
         }
         if (farLeft ){
-            text( 'no slurp 4 u', width/2, height*.2)
-            startX -= 2;
+            text( 'uh oh', width/2, height*.2)
+            startX -= 5;
             win = false;
         } else if (farRight){
-            startX += 2;
+            startX += 5;
             win = false;
         }
         else {
-            text( 'so far so good', width/2, height*.2)
+            text( 'slurp slurp', width/2, height*.2)
         }
     }
     pop ()
@@ -131,18 +135,27 @@ let noodleminX, noodlemaxX, noodleminY, noodlemaxY;
 let initrect = true;
 let run = true;
 let win = true;
+let rectX, rectY;
 
 function restart(){
     startY = 0;
     startX = random(width*.2, width*.8);
     farLeft = false; farRight = false;
     run = true;
+    // upCount = 0;
+    noodleup = false;
 }
 
 let noodleup = false;
 let upCount = 0;
 function draw() {
     background('pink');
+    push ()
+    noFill()
+    stroke('black');
+    strokeWeight(4)
+    rect(0,0, width, height);
+    pop ()
     updateParams(); 
     
        
@@ -152,7 +165,7 @@ function draw() {
         fill(50)
        if (win == false){
         fill('red')
-        text('no noodle for you :( ', width/2, height/2)
+        text('sry, you lose :( ', width/2, height/2)
        }
        else {
         fill('green')
@@ -160,38 +173,24 @@ function draw() {
        }
        btn.show();
        pop ()
-       
-       //btn.remove()
-       
-       //display verdict;
+    
    } 
   
    
    if (run){
     btn.hide();
     win = true;
-
     startY += 3;
-    if (upCount == 40){
-        noodleup = false;
-    }
-    if (noodleup){
-        startY -= 10;
-        if (farLeft){
-            startX -= 7;
-        } else {
-            startX += 7;
-        }
-        
-        upCount ++;
-    }
     startX += random(-.2,.2)
     drawNoodle()
     push ()
     fill(255, 200)
     stroke (0, 70)
     if (mouseX > 0 && mouseY > 0){
-        rect(mouseX, mouseY, strawW, strawH, 5, 5);
+        rectX = mouseX;
+        rectY = max(mouseY, height*.6)
+        rect(rectX, rectY, strawW, strawH, 5, 5);
+     
         noodleIntersection();
     } 
     else {
