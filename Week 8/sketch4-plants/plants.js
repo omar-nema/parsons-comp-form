@@ -1,4 +1,30 @@
 
+
+
+function flowerStem(strWt, gap, len, unitwidth, unitht){
+
+    push ();
+    strokeWeight(strWt);
+    t.pushState();
+    t.penUp()
+    t.moveForward(random(-unitwidth/20, unitwidth/20))
+    
+    t.turnRight(90);
+    t.moveForward(gap)
+    t.penDown();
+
+    col = generateColor();
+    stroke(col)
+    t.moveForward(len)
+    t.penUp();
+
+
+    t.popState();
+
+    pop()
+
+}
+
 function createPetal(x,y, size, gap){
     t.penUp()
     t.moveTo(x, y);
@@ -23,46 +49,21 @@ function createPetal(x,y, size, gap){
     t.popState()
 }
 
-function flowerStem(strWt, gap, len){
-
-    push ();
-    strokeWeight(strWt);
-    t.pushState();
+function createPlantFlower(x,y, unitwidth, unitht, size, numPetals, gap){
     t.penUp()
-    t.moveForward(random(-unitW/20, unitW/20))
-    
-    t.turnRight(90);
-    t.moveForward(gap)
-    t.penDown();
-
-    col = generateColor();
-    stroke(col)
-    t.moveForward(len)
-    t.penUp();
-
-
-    t.popState();
-
-    pop()
-
-}
-
-function createFlower(x,y, size, numPetals, gap){
-    t.penUp()
-    t.moveTo(x, y)
+    t.moveTo(x+unitwidth/2, y+unitht/2)
     t.penDown()
 
     //create stem
     var numStems = random(1, 3);
     for (var i = 0;  i<numStems; i++){
-        flowerStem(1.5, unitH/10, unitH/4);
+        flowerStem(1.5, unitht/10, unitht/4, unitwidth, unitht);
     }
 
     for (i=0; i< numPetals; i++){
         t.pushState();
         stroke(random(50, 255), random(0, 100))
-        // strokWeight(0.2);
-        createPetal(x + random(-size*.1, size*.1), y +random(-size*.1, size*.1), size, gap)
+        createPetal(x + random(-size*.1, size*.1) + unitwidth/2, y +random(-size*.1, size*.1) + unitht/2, size, gap)
         t.popState();
         t.turnLeft(random(-5, 50))
     }
@@ -75,15 +76,15 @@ function createCircle(){
     }
 }
 
-function createRoundPlant(x, y, size){
+function createPlantRound(x, y, unitwidth, unitht){
 
     t.pushState();
     t.penUp()
-    t.moveTo(x, y)
+    t.moveTo(x+unitwidth/2, y+unitht/2)
     t.penDown()
 
-    flowerStem(2, unitH/10, unitH/4);
-    flowerStem(2, unitH/10, unitH/4);
+    flowerStem(2, unitht/10, unitht/4,unitwidth, unitht);
+    flowerStem(2, unitht/10, unitht/4,unitwidth, unitht);
     stroke(generateColor());
     t.turnLeft(90)
 
@@ -103,12 +104,7 @@ function createRoundPlant(x, y, size){
         t.popState();
         
     }
-
-  
-  
-
     t.popState();
-   
 }
 
 
@@ -145,10 +141,10 @@ function randomTurn(){
 }
 
 
-function createBush(x, y, size){
+function createPlantBush(x, y, unitwidth, unitht){
 
     t.pushState();
-    t.moveTo(x, y)
+    t.moveTo(x+unitwidth/2, y+unitht*.75)
 
     //create flowers
     t.penUp();
@@ -158,9 +154,7 @@ function createBush(x, y, size){
    
     stroke(generateColor());
     strokeWeight(1.5)
-    //t.moveForward(unitH*.3);
     t.penUp();
-    //t.moveForward(unitH*.07)
     for (var i=0; i<numCircles; i++){
         
         t.penUp();
@@ -183,11 +177,9 @@ function createBush(x, y, size){
 }
 
 
-function linePlant(x, y, sizeFactor){
-    t.moveTo(x, y);
+function createPlantLine(x, y, unitwidth, unitht, sizeFactor){
+    t.moveTo(x+unitwidth/2, y+unitht);
     t.penUp()
-    t.moveTo(x, y)
-    t.penDown()
 
     var unitAmt = sizeFactor * unitH;
     t.turnLeft(90)
@@ -206,12 +198,12 @@ function linePlant(x, y, sizeFactor){
     }
 }
 
-function createSquigglePlant(x,y,numLevels, sizeFactor){
+function createPlantSquiggle(x,y, unitwidth, unitht, numLevels){
 
     t.pushState();
 
     t.penUp()
-    t.moveTo(x, y);
+    t.moveTo(x+unitwidth/2, y+unitht*.75);
     
     strokeWeight(2);
     stroke(generateColor())

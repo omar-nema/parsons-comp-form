@@ -2,7 +2,7 @@ let unitW, unitH;
 var scl = 8;
 
 function setup() {
-    createCanvas(800, 800)   
+    createCanvas(600, 600)   
 }
 
 function generateColor(){
@@ -10,6 +10,8 @@ function generateColor(){
     col = color(random(220, 330), 90, 90);
     return col;
 }
+
+//plant types: flower, line, squiggle, bush, round
 
 function draw() {
     background(0)
@@ -23,27 +25,36 @@ function draw() {
     unitW = width/scl;
     unitH = height/scl;
 
-    for (x=0; x<scl; x++){
+    for (var y=0; y<scl; y++){
+        for (var x=0; x<scl; x++){
+            push ()
+            stroke(70);
+            strokeWeight(.3)
+            rect(x*unitW, y*unitH, unitW, unitH)
+            pop ()
+        }
+    }
 
+    for (x=0; x<scl; x++){
         t.penUp();
         t.pushState()
         var size = random(.2*unitW, unitW*.6);
-   
-        var gap = random(0, size*.005);
-  
-        var numPetals = random(1, 5)
+        var gap = random(0, size*.005); //gap between petals
+        var numPetals = random(1, 5)        
         push ()
-        createFlower(x*unitW+unitW/2, unitH, size, numPetals, gap)
+        //centers along corner by default so add half unit
+        createPlantFlower(x*unitW, 0, unitW, unitH, size, numPetals, gap)
         t.penDown()
         pop ()
         
         t.popState();
     }
-
+      
     t.pushState();
     for (x=0; x<scl; x++){
         t.pushState();
-        linePlant(x*unitW+unitW/2, unitH*2+unitH/1.5, random(0.8, 1.2));
+        var sizeFactor = random(0.8, 1.2);
+        createPlantLine(x*unitW, unitH, unitW, unitH, sizeFactor);
         t.penUp();
         t.popState();
     }
@@ -51,7 +62,9 @@ function draw() {
 
     t.pushState();
     for (x=0; x<scl; x++){
-        createSquigglePlant(x*unitW+unitW/2, unitH*3+unitH/2, random(2, 5));
+
+        var numSquiggles =  random(2, 5);
+        createPlantSquiggle(x*unitW, unitH*2, unitW, unitH, numSquiggles);
         t.penUp();
     }
     t.popState();
@@ -60,12 +73,13 @@ function draw() {
     for (x=0; x<scl; x++){
         t.penUp();
         t.pushState()
+
         var size = random(.1*unitW, unitW*.13);
         var gap = random(size*.1, size*.15);
         var numPetals = random(10, 30)
         push ()
         strokeWeight(2)
-        createFlower(x*unitW+unitW/2, unitH*4, size, numPetals, gap)
+        createPlantFlower(x*unitW, unitH*3, unitW, unitH, size, numPetals, gap)
         t.penDown()
         pop ()
         t.penUp();
@@ -73,8 +87,8 @@ function draw() {
     }
    
     t.pushState();
-    for (x=0; x<scl; x++){
-        createBush(x*unitW+unitW/2, unitH*5+unitH/2);
+    for (x=0; x<scl; x++){  
+        createPlantBush(x*unitW, unitH*4, unitW, unitH);
         t.penUp();
     }
     t.popState();
@@ -82,7 +96,7 @@ function draw() {
 
     t.pushState();
     for (x=0; x<scl; x++){
-        createRoundPlant(x*unitW+unitW/2, unitH*6+unitH/2);
+        createPlantRound(x*unitW, unitH*5, unitW, unitH);
         t.penUp();
     }
     t.popState();
