@@ -1,8 +1,21 @@
 let unitW, unitH;
 var scl = 8;
 
+
+var plantGrid = [];
+
 function setup() {
     createCanvas(600, 600)   
+    ///
+    for (var y=0; y<scl; y++){
+        var gridRow = [];
+        for (var x=0; x<scl; x++){
+            gridRow.push([])
+        }
+        plantGrid.push(gridRow)
+    }
+
+    
 }
 
 function generateColor(){
@@ -12,6 +25,8 @@ function generateColor(){
 }
 
 //plant types: flower, line, squiggle, bush, round
+
+
 
 function draw() {
     background(0)
@@ -25,6 +40,8 @@ function draw() {
     unitW = width/scl;
     unitH = height/scl;
 
+
+    //create a grid
     for (var y=0; y<scl; y++){
         for (var x=0; x<scl; x++){
             push ()
@@ -54,7 +71,7 @@ function draw() {
     for (x=0; x<scl; x++){
         t.pushState();
         var sizeFactor = random(0.8, 1.2);
-        createPlantLine(x*unitW, unitH, unitW, unitH, sizeFactor);
+        createPlantLine(x*unitW, unitH, unitW, unitH);
         t.penUp();
         t.popState();
     }
@@ -101,6 +118,47 @@ function draw() {
     }
     t.popState();
 
+    var size = unitH;
+    var gap = size*0.015;
+    var numPetals = 3    
+    push ()
+    //centers along corner by default so add half unit
+    t.pushState();
+    createPlantFlower(0, unitH*6, unitW, unitH*2, unitW, numPetals, gap)
+    t.popState();
+    pop();
+
+    t.pushState();
+    var numSquiggles = 4;
+    createPlantSquiggle(unitW, unitH*6, unitW, unitH*2, numSquiggles);
+    t.popState();
+
+
+ 
+    t.pushState();
+    createPlantBushWide(unitW*2, unitH*6, unitW*2, unitH);
+    t.penUp();
+    t.popState(); 
+
+
+    t.pushState();
+    createPlantLine(5*unitW, unitH*6, unitW, unitH*2);
+    t.popState();
+    t.penUp();
+
+
+    t.pushState();
+    createPlantBush(6*unitW, unitH*6, unitW, unitH*2);
+    t.popState();  
+
+    t.pushState();
+    createPlantRoundTall(7*unitW, unitH*6, unitW, unitH*2);
+    t.popState();  
+
+
+    t.pushState();
+    createPlantWide();
+    t.popState();
 
     
 }
