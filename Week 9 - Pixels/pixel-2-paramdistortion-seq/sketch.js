@@ -100,6 +100,8 @@ function distortPixels(){
 
 function drawImage(){
 
+
+    ///change to new image
     for (y=0; y<imgPcd.length; y++){
         var row = imgPcd[y];
         for (x=0;x<row.length; x++){
@@ -145,7 +147,8 @@ function draw() {
     } else if (paramBlendMode == 'BURN'){
         blendMode(BURN);
     }
-    
+
+
     drawImage();
     console.log('i done')
 }
