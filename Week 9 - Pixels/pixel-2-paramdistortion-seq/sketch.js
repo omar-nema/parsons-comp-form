@@ -27,7 +27,7 @@ function setup() {
 
 
     createP ('Pct of Distorted Pixels')
-    sliderDistortNum = createSlider(0,1, 0, 0.05);
+    sliderDistortNum = createSlider(0,.5, 0, 0.05);
 
     createP ('Range of Distortion')
     sliderDistortRange = createSlider(0, 50, 10, 1);
@@ -35,12 +35,15 @@ function setup() {
     createP ('Blend Mode')
     sliderBlendMode = createSelect();
     sliderBlendMode.option('None');
-    sliderBlendMode.option('DIFFERENCE');
-    sliderBlendMode.option('HARD_LIGHT');
-    sliderBlendMode.option('BURN');
+    sliderBlendMode.option('THRESHOLD');
+    sliderBlendMode.option('OPAQUE');
+    sliderBlendMode.option('INVERT');
+    sliderBlendMode.option('POSTERIZE');
+    sliderBlendMode.option('DILATE');
+    sliderBlendMode.option('ERODE');
 
     createP ('Number of Runs')
-    sliderNumRuns = createSlider(0, 200, 0, 5);
+    sliderNumRuns = createSlider(0, 200, 1, 5);
 
     createP ('')
     btnDraw = createButton('Submit')
@@ -99,7 +102,7 @@ function distortPixels(){
 
 
 function drawImage(){
-
+    var img = createImage(imgW, imgH);
 
     ///change to new image
     for (y=0; y<imgPcd.length; y++){
@@ -110,11 +113,14 @@ function drawImage(){
             imgColor = color(colArray[0],colArray[1],colArray[2],colArray[3])
             fill (imgColor)
             noStroke()           
-            rect(x*imgScl, y*imgScl, imgScl);
+
+            img.set(x, y, imgColor);
+            //rect(x*imgScl, y*imgScl, imgScl);
         }
     }
-    console.log('i done')
-
+    img.updatePixels();
+    noSmooth();
+    image (img, 0,0, imgW/2, imgH/2);
 }
 function updateParams(){
     paramDistortNum = sliderDistortNum.value();
@@ -123,6 +129,24 @@ function updateParams(){
     paramNumRuns = sliderNumRuns.value();
 }
 
+function applyFilters(){
+    if (paramBlendMode == 'THRESHOLD'){
+        filter(THRESHOLD);
+    } else if (paramBlendMode == 'OPAQUE'){
+        filter(OPAQUE);
+    } else if (paramBlendMode == 'INVERT'){
+        filter(INVERT);
+    } else if (paramBlendMode == 'POSTERIZE'){
+        filter(POSTERIZE);
+    } else if (paramBlendMode == 'DILATE'){
+        filter(DILATE);
+    } else if (paramBlendMode == 'BLUR'){
+        filter(BLUR);
+    }
+    else if (paramBlendMode == 'BLUR'){
+        filter(ERODE);
+    }
+}
 
 function draw() {
     noLoop(); 
@@ -140,16 +164,13 @@ function draw() {
     for (var i=0; i<paramNumRuns; i++){
         distortPixels();
     }
-    if (paramBlendMode == 'HARD_LIGHT'){
-        blendMode(HARD_LIGHT);
-    } else if (paramBlendMode == 'DIFFERENCE'){
-        blendMode(DIFFERENCE);
-    } else if (paramBlendMode == 'BURN'){
-        blendMode(BURN);
-    }
-
 
     drawImage();
+    applyFilters();
+
+   //doesn't work when entered as string so instead cumbersome if
+
+
     console.log('i done')
 }
 
