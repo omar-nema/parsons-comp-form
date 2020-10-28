@@ -25,7 +25,8 @@ function generateColor(){
 }
 
 //plant types: flower, line, squiggle, bush, round
-
+//tall plants: flower, squiggle, line, round (separate function), bush
+//bush as wide plant
 
 
 function draw() {
@@ -156,9 +157,15 @@ function draw() {
     t.popState();  
 
 
-    t.pushState();
-    createPlantWide();
-    t.popState();
+    var startHt = unitH*7;
+    for (var i=0; i<3; i++){
+        t.pushState();
+        createPlantWide(2*unitW, startHt, unitW*2, unitH);
+        t.popState();
+        startHt += unitH*.05;
+    }
 
-    
+
+
+
 }

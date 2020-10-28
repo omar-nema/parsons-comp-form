@@ -1,3 +1,283 @@
+function makePine(x, y, uw, uh) {
+
+  strokeWeight(1);
+  t.penUp();
+
+  t.pushState();
+  t.moveTo(x + uw / 2, y + uh / 2);
+  t.turnRight(90);
+
+  for (let i = 0; i < random(12, 16); i++) {
+
+    pineNeedle(uw);
+    t.penUp();
+    stroke(generateColor());
+    t.turnLeft(pow(-1, i) * 90);
+    t.moveBackward(noise(i) * uw * 0.8);
+    t.turnRight(pow(-1, i) * 90);
+
+    t.moveBackward(random(0, uh / 10));
+  }
+  t.popState();
+}
+
+
+function pineNeedle(uw) {
+  t.pushState();
+  makeLeaf(random(uw / 80, uw / 90), random(20, 30), random(30, 40), 1);
+  t.popState();
+  t.pushState();
+  makeLeaf(random(uw / 80, uw / 90), random(20, 30), 10, 1);
+  t.popState();
+  t.pushState();
+  makeLeaf(random(uw / 80, uw / 90), random(20, 30), -1 * random(30, 40), -1);
+  t.popState();
+}
+
+
+function makeGrass(x, y, uw, uh) {
+
+  c1 = generateColor();
+  stroke(c1);
+  strokeWeight(1);
+  t.penUp();
+
+  t.pushState();
+  t.moveTo(x + uw / 2, y + uh / 2);
+  t.turnLeft(90);
+
+  for (let i = 0; i < 6; i++) {
+    t.penUp();
+    t.pushState();
+    t.turnLeft(pow(-1, i) * random(3, 40));
+    t.penDown();
+    for (let j = 0; j < random(2, 4); j++) {
+      t.moveForward(random(uh / 10, uh / 8));
+      t.turnLeft(pow(-1, i) * (j * 2 - random(2, 4)));
+    }
+    t.popState();
+
+  }
+  t.popState();
+
+}
+
+
+function makeNeedlePlant(x, y, uw, uh, dir) {
+
+  c1 = generateColor();
+  stroke(c1);
+  strokeWeight(1);
+  t.penUp();
+
+  t.pushState();
+  t.moveTo(x + uw / 2, y + uh / 2);
+  t.turnLeft(90);
+  t.penDown();
+
+  for (let k = 0; k < 4; k++) {
+    //     Pair of Needles
+    t.pushState();
+    for (let i = 0; i < 2; i++) {
+      t.pushState();
+      t.turnLeft((80 - 15 * k) * pow(-1, i));
+      t.moveForward(uw / 4);
+      t.popState();
+    }
+    t.popState();
+    //      next branch
+    t.turnLeft(2 * dir);
+    t.moveForward(uh / 50);
+  }
+  
+  t.moveForward(uh / 5);
+
+  t.popState();
+
+}
+
+
+function makePom(x, y, uw, uh, dir) {
+  c1 = generateColor();
+  c2 = generateColor();
+  stroke(c1);
+  strokeWeight(1);
+  t.penUp();
+
+  t.pushState();
+  t.moveTo(x + uw / 2, y + uh / 2);
+  t.turnLeft(90);
+  t.penDown();
+  t.moveForward(noise(x) * uh / 2);
+
+
+  for (let i = 0; i < 4; i++) {
+    strokeWeight(1);
+    //     branch with pompom
+    t.pushState();
+    t.turnLeft(pow(-1, i) * 15 * dir);
+    t.moveForward(noise(i) * uh / 2);
+    stroke(c2);
+    strokeWeight(10);
+    t.moveForward(0);
+    t.popState();
+    //     next branch
+    stroke(c1);
+    strokeWeight(1);
+    t.turnLeft(2 * dir);
+    t.moveForward(noise(i) * uh / 2);
+  }
+
+  //   last pompom
+  t.moveForward(random(uh / 2));
+  stroke(c2);
+  strokeWeight(10);
+  t.moveForward(0);
+
+  t.popState();
+
+}
+
+
+
+function makeLeafPlant(x, y, uw, uh, dir) {
+
+  c1 = generateColor();
+  c2 = generateColor();
+  stroke(c1);
+  strokeWeight(1);
+  t.penUp();
+
+  t.pushState();
+  t.moveTo(x + uw / 2, y + uh / 2);
+  t.turnLeft(90);
+  t.penDown();
+  t.moveForward(20);
+
+  //   first leaf
+  stroke(c2);
+  makeLeaf(1, random(uw / 6, uw / 3), random(32, 36), 1 * dir);
+
+  stroke(c1);
+  t.turnLeft(4 * dir);
+  t.penDown();
+
+  t.moveForward(uw / 4);
+
+  for (let k = 0; k < 2; k++) {
+    stroke(c2);
+    strokeWeight(1);
+    //     Pair of leaves
+    makeLeaves(uw);
+    //     next branch
+    stroke(c1);
+    t.turnLeft(2 * dir);
+    t.moveForward(uh / 8 + 12);
+  }
+
+  //   last Leaves
+  stroke(c2);
+  makeLeaves(uw);
+  makeLeaf(1, random(uw / 6, uh / 3), 0, 1 * dir);
+
+  t.popState();
+
+}
+
+
+function makeBigLeaf(x, y, uw, uh, dir) {
+
+
+  c1 = generateColor();
+  c2 = generateColor();
+  stroke(c1);
+  strokeWeight(1);
+  t.penUp();
+
+  t.pushState();
+  t.moveTo(x + uw / 2, y + uh / 2);
+  t.turnLeft(90);
+  t.penDown();
+
+  stroke(c1);
+  for (let i = 0; i < 3; i++) {
+    t.turnLeft(4 * dir);
+    t.moveForward(uh / 30);
+  }
+
+  t.pushState();
+  t.turnRight(20 * dir);
+  stroke(c2);
+  makeLeaf(random(uw / 160, uw / 120), 80, 0, dir);
+  t.popState();
+
+  stroke(c1);
+  for (let i = 0; i < 5; i++) {
+    t.turnLeft(4 * dir);
+    t.moveForward(uh / 30);
+  }
+
+  t.popState();
+
+}
+
+// functions that assist in making leaves
+
+function makeArc(inc, deg, dir) {
+  for (let i = 0; i < deg; i++) {
+    t.moveForward(inc);
+    t.turnLeft(1 * dir);
+  }
+}
+
+
+function makeLeaf(inc, r, ang, dir) {
+  t.penDown();
+  t.pushState();
+
+  t.turnRight(ang);
+  makeArc(inc, r, dir);
+  t.turnRight(dir * (r - 180));
+  makeArc(inc, r, dir);
+
+  t.popState();
+  t.penUp();
+
+}
+
+
+function makeLeaves(uw) {
+
+  t.pushState();
+  for (let i = 0; i < 2; i++) {
+    makeLeaf(random(uw / 80, uw / 100), 20, pow(-1, i) * random(30, 40), pow(-1, i));
+  }
+  t.popState();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -50,6 +330,8 @@ function createPetal(x,y, size, gap){
 }
 
 function createPlantFlower(x,y, unitwidth, unitht, size, numPetals, gap){
+
+    t.pushState();
     t.penUp()
     t.moveTo(x+unitwidth/2, y+unitht/2)
     t.penDown()
@@ -67,6 +349,8 @@ function createPlantFlower(x,y, unitwidth, unitht, size, numPetals, gap){
         t.popState();
         t.turnLeft(random(-5, 50))
     }
+
+    t.popState();
 }
 
 function createCircle(unitht){
@@ -221,7 +505,7 @@ function createPlantBushWide(x, y, unitwidth, unitht){
     t.turnLeft(90)
     t.penDown();
 
-    var numCircles = 150;
+    var numCircles = 600;
 
    
     stroke(generateColor());
@@ -322,7 +606,7 @@ function createPlantSquiggle(x,y, unitwidth, unitht, numLevels){
 }
 
 
-function createPlantWide(x,y, unitwidth, unitht){
+function createPond(x,y, unitwidth, unitht){
 
     t.penUp();
     t.moveTo(x+unitwidth*.05, y+unitht/2);
