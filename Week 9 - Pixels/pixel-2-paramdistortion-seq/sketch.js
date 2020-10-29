@@ -27,7 +27,7 @@ function setup() {
 
 
     createP ('Pct of Distorted Pixels')
-    sliderDistortNum = createSlider(0,.5, 0, 0.05);
+    sliderDistortNum = createSlider(0,.5, 0.05, 0.05);
 
     createP ('Range of Distortion')
     sliderDistortRange = createSlider(0, 50, 10, 1);
@@ -43,7 +43,7 @@ function setup() {
     sliderBlendMode.option('ERODE');
 
     createP ('Number of Runs')
-    sliderNumRuns = createSlider(0, 200, 1, 5);
+    sliderNumRuns = createSlider(0, 200, 5, 1);
 
     createP ('')
     btnDraw = createButton('Submit')
@@ -130,6 +130,7 @@ function updateParams(){
 }
 
 function applyFilters(){
+  
     if (paramBlendMode == 'THRESHOLD'){
         filter(THRESHOLD);
     } else if (paramBlendMode == 'OPAQUE'){
@@ -141,6 +142,7 @@ function applyFilters(){
     } else if (paramBlendMode == 'DILATE'){
         filter(DILATE);
     } else if (paramBlendMode == 'BLUR'){
+
         filter(BLUR);
     }
     else if (paramBlendMode == 'BLUR'){
