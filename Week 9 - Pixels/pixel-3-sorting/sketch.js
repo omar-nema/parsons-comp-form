@@ -5,9 +5,7 @@ let states = [];
 let paramSortType, selectSortType;
 
 function preload(){
-  //img = loadImage('./head_84.PNG')
-  // img = loadImage('./ruby2.JPG')
-  img = loadImage('./hajjaj2lowres.jpg')
+  img = loadImage('./photos/hajjaj2lowres.jpg')
 }
 
 function setup() {
@@ -110,6 +108,29 @@ function sortPixels(pixels){
 }
 
 
+// async function seqSort(){
+
+//   var incAmount = 5000;
+
+//   await quickSort(imgPixels, 10000, 80000);
+//   // await  quickSort(imgPixels, 40000, 40000+incAmount);
+//   drawImageFromArray(imgPixels, img);
+
+// }
+
+
+// function mouseClicked(){
+
+
+//   sortIndex = round(mouseX + mouseY*img.width);
+//   sortInc = 5000;
+
+//   quickSort(imgPixels, sortIndex-5000, sortIndex+5000, 'brightness').then( sorted => {
+//     drawImageFromArray(imgPixels, img);
+//     }); 
+// }
+
+
 
 //sort nearby
 
@@ -139,6 +160,7 @@ function draw() {
       }); 
   } 
   else {
+    //seqSort();
     drawImageFromArray(imgPixels, img);
   }
   
@@ -148,6 +170,6 @@ function draw() {
 
 function keyPressed() {
     if (key == "a") {
-      save(frameCount + ".png");
+      save(frameCount + paramSelectType + ".png");
     }
 }
