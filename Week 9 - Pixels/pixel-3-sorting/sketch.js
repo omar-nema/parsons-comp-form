@@ -5,7 +5,9 @@ let states = [];
 let paramSortType, selectSortType;
 
 function preload(){
-  img = loadImage('./hprocess.PNG')
+  //img = loadImage('./head_84.PNG')
+  // img = loadImage('./ruby2.JPG')
+  img = loadImage('./hajjaj2lowres.jpg')
 }
 
 function setup() {
@@ -66,10 +68,15 @@ function drawImageFromArray(pixels, imginput){
   let imgH = imginput.height;
   let imgScale = min(width/imgW, height/imgH);;
   var imgFinal = createImage(imgW, imgH);
+  
   for (y=0; y<imgH; y++){
       for (x=0;x<imgW; x++){
           var ind = y * imgW + x;
-          c = pixels[ind].color;    
+          var r = pixels[ind].r;
+          var g = pixels[ind].g ;
+          var b = pixels[ind].b ;
+          //c = pixels[ind].color;  
+          c = color(r,g,b); 
           imgFinal.set(x, y, c);
       }
   }
@@ -102,6 +109,10 @@ function sortPixels(pixels){
   return pixels;
 }
 
+
+
+//sort nearby
+
 function draw() {
 
   //we need to copy pixel array to prevent resampling
@@ -119,11 +130,11 @@ function draw() {
       drawImageFromArray(imgPixels, img);
       }); 
   } else if (paramSelectType == 'lightness'){
-    quickSort(imgPixels, 0, imgPixels.length-1, 'hue').then( sorted => {
+    quickSort(imgPixels, 0, imgPixels.length-1, 'lightness').then( sorted => {
       drawImageFromArray(imgPixels, img);
       }); 
   }  else if (paramSelectType == 'saturation'){
-    quickSort(imgPixels, 0, imgPixels.length-1, 'hue').then( sorted => {
+    quickSort(imgPixels, 0, imgPixels.length-1, 'saturation').then( sorted => {
       drawImageFromArray(imgPixels, img);
       }); 
   } 
