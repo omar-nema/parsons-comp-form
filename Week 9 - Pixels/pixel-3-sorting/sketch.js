@@ -79,7 +79,7 @@ function drawImageFromArray(pixels, imginput){
       }
   }
   imgFinal.updatePixels();
-  noSmooth();
+  //noSmooth();
   image (imgFinal, 0,0, imgW*imgScale, imgH*imgScale);
   
 }
@@ -170,6 +170,6 @@ function draw() {
 
 function keyPressed() {
     if (key == "a") {
-      save(frameCount + paramSelectType + ".png");
+      save(Date.now().toString + ".png");
     }
 }
