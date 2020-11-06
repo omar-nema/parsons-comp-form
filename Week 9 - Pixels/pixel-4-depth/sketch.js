@@ -31,7 +31,7 @@ function draw() {
   imgPixels = imgPixelsOrig.map( (x) => x);
   translate(-width/2, -height/2);
   rotateX(-PI/10)
- // rotateY(-PI/30)
+  rotateY(-PI/30)
   drawImageFromArray(imgPixels, img);
   noLoop();
 }
