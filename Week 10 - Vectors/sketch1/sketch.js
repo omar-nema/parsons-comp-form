@@ -10,7 +10,7 @@ function randColor(){
 }
 
 function generateRandomRect(size, x, y){
-  var s = new Size(size,size);
+  var s = new Size(size*Math.random()*2,size*Math.random()*2);
   var c = new Point(x, y);
   var rect = new Rectangle(c, s);
   var path = new Path.Rectangle(rect);
@@ -31,37 +31,77 @@ function generateRandomCircle(size, x, y){
   // path.style = {
   //   fillColor: new Color(0.5, .02)
   // }
-  return path;s
+  return path;
 }
 
-var shapes = [];
-var numRuns = 100;
-var shapeMax = 50;
+var numRuns = 1000;
+var shapeMax = 300;
 
-var sizes = [50, 30, 200, 80]
 
-for (var i=0; i< numRuns; i++){
-  r = generateRandomRect(Math.random()*shapeMax, Math.random()*500, Math.random()*500);
-  shapes.push(r);
+function generateShapes(){
+  var shapes = [];
+  for (var i=0; i< numRuns; i++){
+    r = generateRandomRect(Math.random()*shapeMax, Math.random()*500, Math.random()*500);
+    shapes.push(r);
+  }
+  for (var i=0; i< numRuns; i++){
+    r = generateRandomCircle(Math.random()*shapeMax, Math.random()*500, Math.random()*500);
+    shapes.push(r)
+  }
+  return shapes;
 }
-for (var i=0; i< numRuns; i++){
-  r = generateRandomCircle(Math.random()*shapeMax, Math.random()*500, Math.random()*500);
-  shapes.push(r)
+
+
+function generateIntersectSet(){
+  s = generateShapes();
+  s2 = generateShapes();
+  i2 = generateIntersections(s, s2);
+  return i2;
 }
+
+function generateIntersections(s1, s2){
+  var processed = [];
+  for (var i=0; i<s1.length; i++){
+    r1 = s1[i];
+    for (var j=0; j< s2.length;j++){
+      r2 = s2[j];
+      if (r1.intersects(r2)){
+        cp = r1.subtract(r2);
+        processed.push(cp);
+        s1.splice(i, 1);
+        s2.splice(j, 1)
+      }
+    }
+  }
+  return processed;
+}
+
+function drawSet(s){
+  console.log(s)
+  for (var i =0; i<s.length; i++){
+    shape = s[i];
+    shape.style = {
+      fillColor: new Color(0.2)
+    }
+  }
+}
+
+s =generateIntersectSet();
+s2 =generateIntersectSet();
+i = generateIntersections(s, s2)
+drawSet(i);
+
+
+
+
 
 //create one set of intersections
 //another set of intersections
 //intersect them
 
-function processIntersections(shapeInput){
-  var processed = [];
-  var shapeArray = shapeInput.map(function(d){return d});
-  for (var i=0; i<shapeArray.length; i++){
-    r1 = shapeArray[i];
-    for (var j=0; j<shapeArray.length;j++){
-      r2 = shapeArray[j];
-      if (r1.intersects(r2)){
-        cp = r1.unite(r2);
+
+
+
         // cp.style = {
         //   //strokeColor: 'black',
         //   // shadowColor: new Color(0, 0, 0, .5),
@@ -70,29 +110,20 @@ function processIntersections(shapeInput){
         //   // fillColor: 'black'
         //   fillColor: new Color(.1)
         // };
-        processed.push(cp);
-        shapeArray.splice(i, 1);
-        shapeArray.splice(j, 1)
-      }
-    }
-  }
-  return processed;
-}
-
 //copy the array;
 
-var p = shapes;
-for (var i=0; i < 100; i++){
-  console.log(p)
-  p = processIntersections(p);
-}
+// var p = shapes;
+// for (var i=0; i < 100; i++){
+//   console.log(p)
+//   p = processIntersections(p);
+// }
 
-for (var i=0; i<shapes.length; i++){
-  p = shapes[i];
-  p.style = {
-    fillColor: new Color(0.1, 0.1)
-  }
-};
+// for (var i=0; i<shapes.length; i++){
+//   p = shapes[i];
+//   p.style = {
+//     fillColor: new Color(0.1, 0.1)
+//   }
+// };
 
 //sequqntial subrtraction
 
