@@ -1,38 +1,37 @@
-var blobs = [];
+var blob1 = [];
 var numBlobs = 4;
+
+var blobs2 = []
+var blobs3 = []
 
 function setup() {
     createCanvas(400, 400)   
-    b = new Blob(width/2, height/2);
     colorMode(HSB);
 
     for (var i=0; i<numBlobs; i++){
-      blobs.push(new Blob());
+      blob1.push(new Blob());
     }
+
+    for (var i=0; i<numBlobs; i++){
+      blobs2.push(new Blob());
+    }
+
+ 
+
 }
 
 
-function createBlobImage(){
-
-};
-
-
-function draw() {
-
-  background(230);
-
-  let imgW = 400;
-  let imgH = 400;
+function createBlobImage(blobs){
+  let imgW = 200;
+  let imgH = 200;
   let img = createImage(imgW, imgH);
   let imgScale = min(width/imgW, height/imgH);
-
 
   for (var i=0; i<blobs.length; i++){
     blobs[i].update();
     blobs[i].show();
   }
   
-
   for (y=0; y<imgH; y++){
     for (x=0;x<imgW; x++){
         //brightness determined by total distance away from blobs
@@ -46,7 +45,7 @@ function draw() {
         } 
  
         var hue = map(dsum, 0, 300, 150, 360)
-        var c = color(hue, 80, 80)
+        var c = color(hue, 80, 80, 1)
  
         img.set(x, y, c); 
       }
@@ -54,14 +53,19 @@ function draw() {
 
   img.updatePixels();
   noSmooth(); 
+
   image (img, 0,0, imgW*imgScale, imgH*imgScale);
-
-  for (var i=0; i<blobs.length; i++){
-
-    blobs[i].show();
-  }
+};
 
 
+function draw() {
+
+  background(230);
+  
+  createBlobImage(blob1);
+  //createBlobImage(blobs2);
+
+ 
 }
 
 function keyPressed() {
@@ -77,7 +81,9 @@ class Blob {
   constructor() {
     this.x = random(width*.2, width*.8);
     this.y = random(height*.2, height*.8);
-    this.r = random(30, 80);
+    this.r = random(50, 100);
+    
+
     // this.vel = createVector(5, 5);
     this.vel = p5.Vector.random2D();
     this.vel.mult(random(1,4))
