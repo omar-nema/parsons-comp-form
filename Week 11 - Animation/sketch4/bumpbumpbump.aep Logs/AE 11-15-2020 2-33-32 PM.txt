@@ -1,0 +1,8 @@
+  11/15/2020 2:33:32 PM: Starting composition “main-webedit/bumpertest”.
+
+  Output To: C:\Users\omar.nema\Documents\OmarGit\parsons-comp-form\Week 11 - Animation\sketch4\main-webedit-bumpertest.avi    11/15/2020 2:33:38 PM: Finished composition “main-webedit/bumpertest”.
+
+
+  Total Time Elapsed: 6 Seconds
+Log closed on 11/15/2020 at 2:33:38 PM
+

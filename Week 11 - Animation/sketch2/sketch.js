@@ -4,9 +4,18 @@ var numBlobs = 4;
 var blobs2 = []
 var blobs3 = []
 
+var minR ;
+var maxR ;
+
 function setup() {
     createCanvas(400, 400)   
     colorMode(HSB);
+
+    
+     minR = width/10;
+     maxR = width/4;
+
+   
 
     for (var i=0; i<numBlobs; i++){
       blob1.push(new Blob());
@@ -22,8 +31,8 @@ function setup() {
 
 
 function createBlobImage(blobs){
-  let imgW = 200;
-  let imgH = 200;
+  let imgW = 300;
+  let imgH = 300;
   let img = createImage(imgW, imgH);
   let imgScale = min(width/imgW, height/imgH);
 
@@ -44,7 +53,7 @@ function createBlobImage(blobs){
           dsum += 80*blobs[i].r/d;
         } 
  
-        var hue = map(dsum, 0, 300, 150, 360)
+        var hue = map(dsum, 0, 300, 210, 330)
         var c = color(hue, 80, 80, 1)
  
         img.set(x, y, c); 
@@ -58,30 +67,71 @@ function createBlobImage(blobs){
 };
 
 
+
 function draw() {
 
   background(230);
   
   createBlobImage(blob1);
-  //createBlobImage(blobs2);
+  console.log(frameRate())
 
+//  if (frameCount > 50){
+//   saveFrame("t", frameCount, "jpg", 300);
+//  }
+
+ 
+  
+//  console.log(frameRate())
+//   if (frameCount > 300) {
+//       noLoop();
+//   }
  
 }
 
+// function mousePressed(){
+//   console.log('hi')
+//   saveFrames('out', 'png', 1, 300, data => {
+//     print(data);
+//   });
+// }
+
 function keyPressed() {
     if (key == "a") {
-      save(frameCount + ".png");
+      saveCanvas(frameCount + ".png");
     }
 }
 
 
+
+// // saveFrame - a utility function to save the current frame out with a nicely formatted name
+// // format: name_####.extension
+// // name: prefix for file name
+// // frameNumber: number for the frame, will be zero padded
+// // extension: jpg or png, controls file name and image format
+// // maxFrame: checked against frameNumber, frames beyond maxFrame are not saved
+function saveFrame(name, frameNumber, extension, maxFrame) {
+  // don't save frames once we reach the max
+  if (maxFrame && frameNumber > maxFrame) {
+      return;
+  }
+
+  if (!extension) {
+      extension = "png";
+  }
+  // remove the decimal part (just in case)
+  frameNumber = floor(frameNumber);
+  // zero-pad the number (e.g. 13 -> 0013);
+  var paddedNumber = ("0000" + frameNumber).substr(-4, 4);
+
+  save(name + "_" + paddedNumber + "." + extension);
+}
 
 class Blob {
 
   constructor() {
     this.x = random(width*.2, width*.8);
     this.y = random(height*.2, height*.8);
-    this.r = random(50, 100);
+    this.r = random(minR, maxR);
     
 
     // this.vel = createVector(5, 5);
