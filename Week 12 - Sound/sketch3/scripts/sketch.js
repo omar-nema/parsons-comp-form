@@ -1,7 +1,5 @@
 
 let playing, track;
-
-
 var fftUnits = 32;
 
 function preload() {
@@ -66,21 +64,8 @@ function draw() {
       circle(pt.x, pt.y, pt.w, pt.w);
       pop ()
     }
-    
-
-
+  
   }
-
-
-  // for (i=0; i<fftUnits*.25; i++){
-  //   fill('blue')
-  //   stroke(255)
-  //   var rectheight = map(spectrum[i], 0, 255, 0, 100);
-  //   rect(i*rectwidth, height, rectwidth, -rectheight);
-  // }
-
-
-
   
 }
 
@@ -89,8 +74,8 @@ function play(){
     track.play();
     playing = true;
   } else {
-    // track.stop();
-    // playing = false;
+    track.stop();
+    playing = false;
   }
 }
 
