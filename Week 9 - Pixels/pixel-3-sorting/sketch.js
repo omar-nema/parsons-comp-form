@@ -25,7 +25,7 @@ function setup() {
     btnDraw = createButton('Submit')
     btnDraw.mousePressed(redraw)
 }
-
+  
 //pixel array with x, y, index values
 function createImageArray(imginput){
   var pixelArray = [];
