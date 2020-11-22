@@ -30,7 +30,7 @@ function setup() {
 //max out at 10
 
 var numSeconds = 5;
-var maxDistortion = 15;
+var maxDistortion = 3;
 var numIterations = 40;
 var incTime = numSeconds/numIterations;
 
@@ -38,8 +38,9 @@ var collectionDistorted = [];
 function createDistortionCollection(imgInput){
 
   let distortRanges = [];
+  //let distortRanges = [5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5];
   for (var i=0; i<numIterations; i++){
-    distortRanges.push(i*(maxDistortion/numIterations));
+    distortRanges.push(10+i*(maxDistortion/numIterations));
   }
 
   for (var i=0; i< distortRanges.length; i++){

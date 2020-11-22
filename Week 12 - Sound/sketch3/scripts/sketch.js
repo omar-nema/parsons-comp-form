@@ -22,11 +22,11 @@ function setup() {
     var scl = 50;
     var unit = width/scl;
 
-    for (var i= 0; i<5000; i++){
+    for (var i= 0; i<12000; i++){
       var fftassign = floor(random(0, fftUnits/2));
       var pt = {
-        x: random(width),
-        y: random(width),
+        x: (random(width)+random(width))/2,
+        y: (random(width)+random(width))*.75,
         z: random(width/2),
         w: random(unit/20, unit/4),
        
