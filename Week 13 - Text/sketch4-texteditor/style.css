@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 500px;
+  height: 500px;
+  position: relative;
+  font-size: 16px;
+  font-family: 'Work Sans';
+
+}
+
+.judge {
+  position: absolute;
+  width: 90%;
+  height: 60px;
+  background: white;
+  bottom: 40px;
+  left: 5%;
+  border: 1px dashed gray;
+  padding: 30px;
+  color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#container {
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,.05);
+  padding: 30px;
+}
+/*# sourceMappingURL=style.css.map */
